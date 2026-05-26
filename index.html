@@ -289,8 +289,8 @@
   <section class="page active" id="resumo">
     <div class="hero">
       <div class="label">Economia Anual Estimada</div>
-      <div class="big-number">R$ 272.318,76</div>
-      <div class="sub">Redução de 54,7% no custo mensal — economia de R$ 22.693,23/mês</div>
+      <div class="big-number">R$ 277.118,76</div>
+      <div class="sub">Redução de 55,7% no custo mensal — economia de R$ 23.093,23/mês</div>
     </div>
 
     <div class="cards-grid">
@@ -301,13 +301,13 @@
       </div>
       <div class="card novo">
         <div class="label">Custo Mensal — Novos</div>
-        <div class="value">R$ 18.800,00</div>
+        <div class="value">R$ 18.400,00</div>
         <div class="delta">4 fornecedores</div>
       </div>
       <div class="card econ">
         <div class="label">Economia Mensal</div>
-        <div class="value">R$ 22.693,23</div>
-        <div class="delta">↓ 54,7% em relação ao antigo</div>
+        <div class="value">R$ 23.093,23</div>
+        <div class="delta">↓ 55,7% em relação ao antigo</div>
       </div>
     </div>
 
@@ -336,7 +336,9 @@
       a saída do serviço de instalação e configuração do sistema de monitoramento remoto de rede em 22 pontos
       (R$ 6.420 → R$ 4.420) e a renegociação via configuração de 32 VPN GRE referenciada na NF 574054
       (R$ 4.420 → R$ 3.200). O AWS de R$ 10.000/mês foi incluído como custo antigo (pago via cartão corporativo,
-      não passava por SE2).
+      não passava por SE2). A COREIT foi separada em duas categorias: Data Center + Suporte Técnico ficaram no
+      Firewall; Locação de Firewalls + 2 aditivos posteriores ficaram em Backup/Gerenciamento de Dados.
+      O acessório/licença mensal do EMTECH (R$ 400) não está incluído nesta análise.
     </div>
   </section>
 
@@ -395,30 +397,29 @@
       </div>
     </div>
 
-    <!-- 1GB INTERNET -->
+    <!-- LINK 1GB (MATRIZ) -->
     <div class="category-block">
       <div class="header">
-        <h3>🌐 1GB Internet (Matriz)</h3>
-        <span class="pill economia">Economia: R$ 20.480,80/mês</span>
+        <h3>🌐 Link 1GB (Matriz)</h3>
+        <span class="pill economia">Economia: R$ 1.212,65/mês</span>
       </div>
       <div class="body">
         <div class="supplier-row">
           <span class="tag antigo">Antigo</span>
           <div class="info">
-            <div class="name">COREIT SERVIÇOS GERENCIADOS</div>
-            <div class="contract-desc">📄 COREIT SERVICOS GERENCIADOS</div>
-            <div class="meta">Código 017293 · Contrato 000000000001888 · 5 NFs/mês</div>
+            <div class="name">CORELINK CONECTIVIDADE SEGURA</div>
+            <div class="contract-desc">📄 CORELINK CONECTIVIDADE SEGURA</div>
+            <div class="meta">Código 018138 · Contrato 000000000001864 · 4 NFs/mês</div>
           </div>
-          <div class="price antigo">R$ 23.680,80</div>
+          <div class="price antigo">R$ 4.412,65</div>
         </div>
         <div class="breakdown">
-          <div class="breakdown-title">Composição das NFs mensais (jan-abr/2024)</div>
+          <div class="breakdown-title">Composição das NFs (mai-ago/2024, último valor reajustado)</div>
           <table>
-            <tr><td>Serviço de Data Center <em style="color:var(--c-muted)">(VMs 32 cores + 132GB RAM + 5800GB disco + backup + link 200MB + virtual firewall)</em></td><td>R$ 12.058,85</td></tr>
-            <tr><td>Locação de Firewalls <em style="color:var(--c-muted)">(NSA 240 + TZ 205/210/215 + XG 210 — 27 equipamentos)</em></td><td>R$ 7.930,93</td></tr>
-            <tr><td>Suporte Técnico <em style="color:var(--c-muted)">(suporte e monitoramento 24×7 dos firewalls)</em></td><td>R$ 1.524,69</td></tr>
-            <tr><td>Prestação de Serviço <em style="color:var(--c-muted)">(aditivo posterior)</em></td><td>R$ 1.415,53</td></tr>
-            <tr><td>Prestação de Serviço <em style="color:var(--c-muted)">(aditivo posterior)</em></td><td>R$ 750,80</td></tr>
+            <tr><td>Serviço de Internet <em style="color:var(--c-muted)">(link principal)</em></td><td>R$ 2.411,67</td></tr>
+            <tr><td>Serviço de Internet</td><td>R$ 1.169,92</td></tr>
+            <tr><td>Serviço de Internet</td><td>R$ 623,29</td></tr>
+            <tr><td>Serviço de Internet</td><td>R$ 207,77</td></tr>
           </table>
         </div>
         <div class="supplier-row">
@@ -464,31 +465,54 @@
       </div>
     </div>
 
-    <!-- LINK/FIREWALL/SERVIDOR -->
+    <!-- FIREWALL -->
     <div class="category-block">
       <div class="header">
-        <h3>🔥 Link / Firewall / Servidor</h3>
-        <span class="pill economia">Economia: R$ 1.212,65/mês</span>
+        <h3>🔥 Firewall</h3>
+        <span class="pill economia">Economia: R$ 7.483,54/mês</span>
       </div>
       <div class="body">
         <div class="supplier-row">
           <span class="tag antigo">Antigo</span>
           <div class="info">
-            <div class="name">CORELINK CONECTIVIDADE SEGURA</div>
-            <div class="contract-desc">📄 CORELINK CONECTIVIDADE SEGURA</div>
-            <div class="meta">Código 018138 · Contrato 000000000001864 · 4 NFs/mês</div>
+            <div class="name">COREIT SERVIÇOS GERENCIADOS</div>
+            <div class="contract-desc">📄 COREIT SERVICOS GERENCIADOS <span style="opacity:.7">(parcial: Data Center + Suporte)</span></div>
+            <div class="meta">Código 017293 · Contrato 000000000001888 · 2 das 5 NFs/mês</div>
           </div>
-          <div class="price antigo">R$ 4.412,65</div>
+          <div class="price antigo">R$ 13.583,54</div>
         </div>
         <div class="breakdown">
-          <div class="breakdown-title">Composição das NFs (mai-ago/2024, último valor reajustado)</div>
+          <div class="breakdown-title">Composição (itens do contrato COREIT relacionados a firewall)</div>
           <table>
-            <tr><td>Serviço de Internet <em style="color:var(--c-muted)">(link principal)</em></td><td>R$ 2.411,67</td></tr>
-            <tr><td>Serviço de Internet</td><td>R$ 1.169,92</td></tr>
-            <tr><td>Serviço de Internet</td><td>R$ 623,29</td></tr>
-            <tr><td>Serviço de Internet</td><td>R$ 207,77</td></tr>
+            <tr><td>Serviço de Data Center <em style="color:var(--c-muted)">(VMs 32 cores + 132GB RAM + 5800GB disco + backup + link 200MB + virtual firewall)</em></td><td>R$ 12.058,85</td></tr>
+            <tr><td>Suporte Técnico <em style="color:var(--c-muted)">(suporte e monitoramento 24×7 dos firewalls)</em></td><td>R$ 1.524,69</td></tr>
           </table>
         </div>
+        <div class="supplier-row">
+          <span class="tag novo">Novo</span>
+          <div class="info">
+            <div class="name">JDD/EMTECH TELECOM <small style="color:var(--c-muted)">(Firewall)</small></div>
+            <div class="contract-desc">📄 JDD EMPRESA TECNICA DE TELECOMUNICACOES</div>
+            <div class="meta">Código MUNNK2 · Contrato 000000000002047 · 1 NF/mês</div>
+          </div>
+          <div class="price novo">R$ 6.100,00</div>
+        </div>
+        <div class="breakdown">
+          <div class="breakdown-title">Composição mensal recorrente</div>
+          <table>
+            <tr><td>Prestação de Serviço <em style="color:var(--c-muted)">(firewall mensal — reparo/manutenção de equipamentos de comunicação)</em></td><td>R$ 6.100,00</td></tr>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- BACKUP / GERENCIAMENTO DE DADOS -->
+    <div class="category-block">
+      <div class="header">
+        <h3>💾 Backup / Gerenciamento de Dados</h3>
+        <span class="pill economia">Economia: R$ 13.397,26/mês</span>
+      </div>
+      <div class="body">
         <div class="supplier-row">
           <span class="tag antigo">Antigo</span>
           <div class="info">
@@ -504,25 +528,26 @@
           </table>
         </div>
         <div class="supplier-row">
-          <span class="tag novo">Novo</span>
+          <span class="tag antigo">Antigo</span>
           <div class="info">
-            <div class="name">JDD/EMTECH TELECOM <small style="color:var(--c-muted)">(Firewall)</small></div>
-            <div class="contract-desc">📄 JDD EMPRESA TECNICA DE TELECOMUNICACOES</div>
-            <div class="meta">Código MUNNK2 · Contrato 000000000002047 · 2 NFs/mês</div>
+            <div class="name">COREIT SERVIÇOS GERENCIADOS</div>
+            <div class="contract-desc">📄 COREIT SERVICOS GERENCIADOS <span style="opacity:.7">(parcial: Locação + Aditivos)</span></div>
+            <div class="meta">Código 017293 · Contrato 000000000001888 · 3 das 5 NFs/mês</div>
           </div>
-          <div class="price novo">R$ 6.500,00</div>
+          <div class="price antigo">R$ 10.097,26</div>
         </div>
         <div class="breakdown">
-          <div class="breakdown-title">Composição mensal recorrente</div>
+          <div class="breakdown-title">Composição (itens do contrato COREIT relacionados a backup/dados)</div>
           <table>
-            <tr><td>Prestação de Serviço <em style="color:var(--c-muted)">(firewall mensal — reparo/manutenção de equipamentos de comunicação)</em></td><td>R$ 6.100,00</td></tr>
-            <tr><td>Prestação de Serviço <em style="color:var(--c-muted)">(acessório/licença)</em></td><td>R$ 400,00</td></tr>
+            <tr><td>Locação de Firewalls <em style="color:var(--c-muted)">(NSA 240 + TZ 205/210/215 + XG 210 — 27 equipamentos)</em></td><td>R$ 7.930,93</td></tr>
+            <tr><td>Prestação de Serviço <em style="color:var(--c-muted)">(aditivo posterior)</em></td><td>R$ 1.415,53</td></tr>
+            <tr><td>Prestação de Serviço <em style="color:var(--c-muted)">(aditivo posterior)</em></td><td>R$ 750,80</td></tr>
           </table>
         </div>
         <div class="supplier-row">
           <span class="tag novo">Novo</span>
           <div class="info">
-            <div class="name">GHV TECNOLOGIA <small style="color:var(--c-muted)">(Servidor/Link)</small></div>
+            <div class="name">GHV TECNOLOGIA <small style="color:var(--c-muted)">(Backup / Gerenciamento de Dados)</small></div>
             <div class="contract-desc">📄 BACKUP / GERENCIAMENTO DE DADOS / VMs</div>
             <div class="meta">Código MUNNMY · Contrato 000000000002043 · 2 NFs/mês</div>
           </div>
@@ -553,7 +578,7 @@
         </thead>
         <tbody>
           <tr>
-            <td><strong>500MG</strong></td>
+            <td><strong>Link 500MG</strong></td>
             <td>DB3 (019972)</td>
             <td class="num">R$ 3.399,78</td>
             <td>JDD NET (MUNOOY)</td>
@@ -561,20 +586,28 @@
             <td class="num" style="color: var(--c-novo);">−R$ 999,78</td>
           </tr>
           <tr>
-            <td><strong>1GB Internet</strong></td>
-            <td>COREIT (017293)</td>
-            <td class="num">R$ 23.680,80</td>
+            <td><strong>Link 1GB</strong></td>
+            <td>CORELINK (018138)</td>
+            <td class="num">R$ 4.412,65</td>
             <td>CYBER INFO (017384)</td>
             <td class="num">R$ 3.200,00</td>
-            <td class="num" style="color: var(--c-novo);">−R$ 20.480,80</td>
+            <td class="num" style="color: var(--c-novo);">−R$ 1.212,65</td>
           </tr>
           <tr>
-            <td><strong>Link/Firewall/SV</strong></td>
-            <td>CORELINK + AWS</td>
-            <td class="num">R$ 14.412,65</td>
-            <td>EMTECH + GHV</td>
-            <td class="num">R$ 13.200,00</td>
-            <td class="num" style="color: var(--c-novo);">−R$ 1.212,65</td>
+            <td><strong>Firewall</strong></td>
+            <td>COREIT <em style="color:var(--c-muted)">(DC + Suporte)</em></td>
+            <td class="num">R$ 13.583,54</td>
+            <td>EMTECH (MUNNK2)</td>
+            <td class="num">R$ 6.100,00</td>
+            <td class="num" style="color: var(--c-novo);">−R$ 7.483,54</td>
+          </tr>
+          <tr>
+            <td><strong>Backup / Gerenc. Dados</strong></td>
+            <td>AWS + COREIT <em style="color:var(--c-muted)">(Locação + Aditivos)</em></td>
+            <td class="num">R$ 20.097,26</td>
+            <td>GHV (MUNNMY)</td>
+            <td class="num">R$ 6.700,00</td>
+            <td class="num" style="color: var(--c-novo);">−R$ 13.397,26</td>
           </tr>
         </tbody>
         <tfoot>
@@ -582,8 +615,8 @@
             <td colspan="2">TOTAL MENSAL</td>
             <td class="num">R$ 41.493,23</td>
             <td></td>
-            <td class="num">R$ 18.800,00</td>
-            <td class="num" style="color: var(--c-novo);">−R$ 22.693,23</td>
+            <td class="num">R$ 18.400,00</td>
+            <td class="num" style="color: var(--c-novo);">−R$ 23.093,23</td>
           </tr>
         </tfoot>
       </table>
@@ -675,7 +708,7 @@
       data: {
         labels: ['Contratos Antigos', 'Contratos Novos'],
         datasets: [{
-          data: [41493.23, 18800.00],
+          data: [41493.23, 18400.00],
           backgroundColor: [C_ANTIGO, C_NOVO],
           borderRadius: 10, barThickness: 110
         }]
@@ -704,10 +737,10 @@
     charts.categoria = new Chart(document.getElementById('chartCategoria'), {
       type: 'bar',
       data: {
-        labels: ['Link 500MG', 'Link 1GB', 'Link/Firewall/SV'],
+        labels: ['Link 500MG', 'Link 1GB', 'Firewall', 'Backup / Gerenc. Dados'],
         datasets: [
-          { label: 'Antigo', data: [3399.78, 23680.80, 14412.65], backgroundColor: C_ANTIGO, borderRadius: 6 },
-          { label: 'Novo',   data: [2400.00,  3200.00, 13200.00], backgroundColor: C_NOVO,   borderRadius: 6 }
+          { label: 'Antigo', data: [3399.78,  4412.65, 13583.54, 20097.26], backgroundColor: C_ANTIGO, borderRadius: 6 },
+          { label: 'Novo',   data: [2400.00,  3200.00,  6100.00,  6700.00], backgroundColor: C_NOVO,   borderRadius: 6 }
         ]
       },
       options: {
@@ -732,9 +765,9 @@
     charts.pizza = new Chart(document.getElementById('chartPizza'), {
       type: 'doughnut',
       data: {
-        labels: ['EMTECH (Firewall)', 'GHV (Servidor/Link)', 'CYBER INFO (1GB)', 'JDD NET (500MG)'],
+        labels: ['EMTECH (Firewall)', 'GHV (Backup/Dados)', 'CYBER INFO (1GB)', 'JDD NET (500MG)'],
         datasets: [{
-          data: [6500, 6700, 3200, 2400],
+          data: [6100, 6700, 3200, 2400],
           backgroundColor: ['#3b82f6', '#a855f7', '#14b8a6', '#f59e0b'],
           borderColor: col.surface, borderWidth: 3
         }]
@@ -759,10 +792,10 @@
     charts.detalhe = new Chart(document.getElementById('chartDetalhe'), {
       type: 'bar',
       data: {
-        labels: ['Link 500MG', 'Link 1GB', 'Link/Firewall/SV'],
+        labels: ['Link 500MG', 'Link 1GB', 'Firewall', 'Backup / Gerenc. Dados'],
         datasets: [
-          { label: 'Antigo', data: [3399.78, 23680.80, 14412.65], backgroundColor: C_ANTIGO, borderRadius: 6 },
-          { label: 'Novo',   data: [2400.00,  3200.00, 13200.00], backgroundColor: C_NOVO,   borderRadius: 6 }
+          { label: 'Antigo', data: [3399.78,  4412.65, 13583.54, 20097.26], backgroundColor: C_ANTIGO, borderRadius: 6 },
+          { label: 'Novo',   data: [2400.00,  3200.00,  6100.00,  6700.00], backgroundColor: C_NOVO,   borderRadius: 6 }
         ]
       },
       options: {
