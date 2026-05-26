@@ -228,6 +228,39 @@
   footer {
     text-align: center; padding: 24px; color: var(--c-muted); font-size: .8rem;
   }
+
+  /* ==== Timeline de negociação ==== */
+  .nego-timeline {
+    background: linear-gradient(135deg, rgba(59,130,246,.12) 0%, rgba(16,185,129,.12) 100%);
+    border: 1px solid var(--c-border); border-radius: 10px;
+    padding: 20px 24px; margin: 18px 24px; }
+  [data-theme="light"] .nego-timeline {
+    background: linear-gradient(135deg, #eff6ff 0%, #ecfdf5 100%); }
+  .nego-timeline .nego-title {
+    font-size: .75rem; font-weight: 700; color: var(--c-econ);
+    text-transform: uppercase; letter-spacing: 1px; margin-bottom: 14px; }
+  .nego-flow {
+    display: flex; align-items: stretch; gap: 8px; flex-wrap: wrap; }
+  .nego-step {
+    flex: 1 1 0; min-width: 130px; padding: 12px 14px; border-radius: 8px;
+    background: var(--c-surface); border: 1px solid var(--c-border); text-align: center; }
+  .nego-step.initial { border-left: 4px solid var(--c-antigo); }
+  .nego-step.middle  { border-left: 4px solid #f59e0b; }
+  .nego-step.final   { border-left: 4px solid var(--c-novo); }
+  .nego-step .val { font-size: 1.4rem; font-weight: 700; font-family: 'SF Mono', Menlo, monospace; }
+  .nego-step.initial .val { color: var(--c-antigo); text-decoration: line-through; opacity: .85; }
+  .nego-step.middle  .val { color: #f59e0b; text-decoration: line-through; opacity: .85; }
+  .nego-step.final   .val { color: var(--c-novo); }
+  .nego-step .lab { font-size: .7rem; color: var(--c-muted); text-transform: uppercase; margin-top: 4px; letter-spacing: .5px; }
+  .nego-step .delta { display: block; font-size: .78rem; margin-top: 6px; font-weight: 600; }
+  .nego-step.middle .delta { color: #f59e0b; }
+  .nego-step.final  .delta { color: var(--c-novo); }
+  .nego-arrow { display: flex; align-items: center; color: var(--c-muted); font-size: 1.3rem; padding: 0 4px; }
+  .nego-total {
+    margin-top: 14px; padding-top: 12px; border-top: 1px dashed var(--c-border);
+    font-size: .9rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; }
+  .nego-total strong { color: var(--c-novo); font-size: 1.05rem; }
+  .nego-ref { font-size: .75rem; color: var(--c-muted); font-style: italic; }
 </style>
 </head>
 <body>
@@ -256,8 +289,8 @@
   <section class="page active" id="resumo">
     <div class="hero">
       <div class="label">Economia Anual Estimada</div>
-      <div class="big-number">R$ 233.678,76</div>
-      <div class="sub">Redução de 46,9% no custo mensal — economia de R$ 19.473,23/mês</div>
+      <div class="big-number">R$ 272.318,76</div>
+      <div class="sub">Redução de 54,7% no custo mensal — economia de R$ 22.693,23/mês</div>
     </div>
 
     <div class="cards-grid">
@@ -268,13 +301,13 @@
       </div>
       <div class="card novo">
         <div class="label">Custo Mensal — Novos</div>
-        <div class="value">R$ 22.020,00</div>
+        <div class="value">R$ 18.800,00</div>
         <div class="delta">4 fornecedores</div>
       </div>
       <div class="card econ">
         <div class="label">Economia Mensal</div>
-        <div class="value">R$ 19.473,23</div>
-        <div class="delta">↓ 46,9% em relação ao antigo</div>
+        <div class="value">R$ 22.693,23</div>
+        <div class="delta">↓ 54,7% em relação ao antigo</div>
       </div>
     </div>
 
@@ -299,8 +332,11 @@
 
     <div class="note">
       <strong>Premissas aplicadas:</strong> spikes não-recorrentes foram removidos (compra de equipamento da EMTECH
-      de R$ 212.598,97 e NFs avulsas da CYBER INFO). O AWS de R$ 10.000/mês foi incluído como custo antigo
-      (era pago via cartão corporativo, não passava por SE2). Os valores refletem a mensalidade recorrente.
+      de R$ 212.598,97). O CYBER INFO usa o valor já renegociado de R$ 3.200/mês na matriz — após duas reduções:
+      a saída do serviço de instalação e configuração do sistema de monitoramento remoto de rede em 22 pontos
+      (R$ 6.420 → R$ 4.420) e a renegociação via configuração de 32 VPN GRE referenciada na NF 574054
+      (R$ 4.420 → R$ 3.200). O AWS de R$ 10.000/mês foi incluído como custo antigo (pago via cartão corporativo,
+      não passava por SE2).
     </div>
   </section>
 
@@ -308,16 +344,62 @@
   <section class="page" id="detalhe">
 
     <div class="chart-card">
-      <h2>Composição mensal por categoria</h2>
-      <p class="sub">Detalhe lado-a-lado de cada serviço</p>
+      <h2>Comparação por categoria</h2>
+      <p class="sub">Antigo × novo separados por tipo de serviço</p>
       <div class="chart-container"><canvas id="chartDetalhe"></canvas></div>
+    </div>
+
+    <!-- 500MG -->
+    <div class="category-block">
+      <div class="header">
+        <h3>📡 Link 500MG</h3>
+        <span class="pill economia">Economia: R$ 999,78/mês</span>
+      </div>
+      <div class="body">
+        <div class="supplier-row">
+          <span class="tag antigo">Antigo</span>
+          <div class="info">
+            <div class="name">DB3 SERVIÇOS DE TELECOMUNICAÇÕES</div>
+            <div class="contract-desc">📄 DB3 SERVICOS DE TELECOMUNICACOES</div>
+            <div class="meta">Código 019972 · Contratos 1952/1953 · 7 NFs/mês</div>
+          </div>
+          <div class="price antigo">R$ 3.399,78</div>
+        </div>
+        <div class="breakdown">
+          <div class="breakdown-title">Composição das NFs (jun/2024 em diante)</div>
+          <table>
+            <tr><td>Serviço de Internet <em style="color:var(--c-muted)">(link principal 500MG)</em></td><td>R$ 1.820,00</td></tr>
+            <tr><td>Serviço de Internet <em style="color:var(--c-muted)">(link secundário)</em></td><td>R$ 780,00</td></tr>
+            <tr><td>Serviço de Internet</td><td>R$ 399,89</td></tr>
+            <tr><td>Serviço de Internet</td><td>R$ 159,96</td></tr>
+            <tr><td>Serviço de Internet</td><td>R$ 100,00</td></tr>
+            <tr><td>Serviço de Internet</td><td>R$ 79,98</td></tr>
+            <tr><td>Serviço de Internet <em style="color:var(--c-muted)">(boleto recorrente)</em></td><td>R$ 59,95</td></tr>
+          </table>
+        </div>
+        <div class="supplier-row">
+          <span class="tag novo">Novo</span>
+          <div class="info">
+            <div class="name">JDD NET PROVEDOR DE INTERNET</div>
+            <div class="contract-desc">📄 JDD - LINK MATRIZ</div>
+            <div class="meta">Código MUNOOY · Contrato 000000000002062 · 1 NF/mês</div>
+          </div>
+          <div class="price novo">R$ 2.400,00</div>
+        </div>
+        <div class="breakdown">
+          <div class="breakdown-title">Composição mensal recorrente</div>
+          <table>
+            <tr><td>Serviço de Internet <em style="color:var(--c-muted)">(link 500MG matriz)</em></td><td>R$ 2.400,00</td></tr>
+          </table>
+        </div>
+      </div>
     </div>
 
     <!-- 1GB INTERNET -->
     <div class="category-block">
       <div class="header">
         <h3>🌐 1GB Internet (Matriz)</h3>
-        <span class="pill economia">Economia: R$ 17.260,80/mês</span>
+        <span class="pill economia">Economia: R$ 20.480,80/mês</span>
       </div>
       <div class="body">
         <div class="supplier-row">
@@ -332,11 +414,11 @@
         <div class="breakdown">
           <div class="breakdown-title">Composição das NFs mensais (jan-abr/2024)</div>
           <table>
-            <tr><td>Prestação de Serviço <em style="color:var(--c-muted)">(link 1GB principal)</em></td><td>R$ 12.058,85</td></tr>
-            <tr><td>Prestação de Serviço</td><td>R$ 7.930,93</td></tr>
-            <tr><td>Prestação de Serviço</td><td>R$ 1.524,69</td></tr>
-            <tr><td>Prestação de Serviço</td><td>R$ 1.415,53</td></tr>
-            <tr><td>Prestação de Serviço</td><td>R$ 750,80</td></tr>
+            <tr><td>Serviço de Data Center <em style="color:var(--c-muted)">(VMs 32 cores + 132GB RAM + 5800GB disco + backup + link 200MB + virtual firewall)</em></td><td>R$ 12.058,85</td></tr>
+            <tr><td>Locação de Firewalls <em style="color:var(--c-muted)">(NSA 240 + TZ 205/210/215 + XG 210 — 27 equipamentos)</em></td><td>R$ 7.930,93</td></tr>
+            <tr><td>Suporte Técnico <em style="color:var(--c-muted)">(suporte e monitoramento 24×7 dos firewalls)</em></td><td>R$ 1.524,69</td></tr>
+            <tr><td>Prestação de Serviço <em style="color:var(--c-muted)">(aditivo posterior)</em></td><td>R$ 1.415,53</td></tr>
+            <tr><td>Prestação de Serviço <em style="color:var(--c-muted)">(aditivo posterior)</em></td><td>R$ 750,80</td></tr>
           </table>
         </div>
         <div class="supplier-row">
@@ -346,13 +428,38 @@
             <div class="contract-desc">📄 CYBER INFO - MATRIZ</div>
             <div class="meta">Código 017384 · Contrato 000000000002044 · 1 NF/mês</div>
           </div>
-          <div class="price novo">R$ 6.420,00</div>
+          <div class="price novo">R$ 3.200,00</div>
         </div>
         <div class="breakdown">
           <div class="breakdown-title">Composição mensal recorrente</div>
           <table>
-            <tr><td>Serviço de Internet <em style="color:var(--c-muted)">(link 1GB Matriz + instalação de cabo de rede/RJs)</em></td><td>R$ 6.420,00</td></tr>
+            <tr><td>Serviço de Internet <em style="color:var(--c-muted)">(link 1GB matriz)</em></td><td>R$ 3.200,00</td></tr>
           </table>
+        </div>
+        <div class="nego-timeline">
+          <div class="nego-title">📉 Evolução do custo CYBER INFO — Histórico de negociações</div>
+          <div class="nego-flow">
+            <div class="nego-step initial">
+              <div class="val">R$ 6.420</div>
+              <div class="lab">Valor inicial</div>
+            </div>
+            <div class="nego-arrow">→</div>
+            <div class="nego-step middle">
+              <div class="val">R$ 4.420</div>
+              <div class="lab">1ª redução</div>
+              <span class="delta">−R$ 2.000 · saída do serviço de instalação e configuração do sistema de monitoramento remoto de rede em 22 pontos de acesso</span>
+            </div>
+            <div class="nego-arrow">→</div>
+            <div class="nego-step final">
+              <div class="val">R$ 3.200</div>
+              <div class="lab">Valor atual</div>
+              <span class="delta">−R$ 1.220 · novo desconto negociado</span>
+            </div>
+          </div>
+          <div class="nego-total">
+            <span>💰 Economia acumulada CYBER: <strong>R$ 3.220/mês</strong> (R$ 38.640/ano) — redução de 50,2%</span>
+            <span class="nego-ref">Ref.: Configuração de 32 VPN GRE · NF 574054</span>
+          </div>
         </div>
       </div>
     </div>
@@ -431,52 +538,6 @@
       </div>
     </div>
 
-    <!-- 500MG -->
-    <div class="category-block">
-      <div class="header">
-        <h3>📡 Link 500MG</h3>
-        <span class="pill economia">Economia: R$ 999,78/mês</span>
-      </div>
-      <div class="body">
-        <div class="supplier-row">
-          <span class="tag antigo">Antigo</span>
-          <div class="info">
-            <div class="name">DB3 SERVIÇOS DE TELECOMUNICAÇÕES</div>
-            <div class="contract-desc">📄 DB3 SERVICOS DE TELECOMUNICACOES</div>
-            <div class="meta">Código 019972 · Contratos 1952/1953 · 7 NFs/mês</div>
-          </div>
-          <div class="price antigo">R$ 3.399,78</div>
-        </div>
-        <div class="breakdown">
-          <div class="breakdown-title">Composição das NFs (jun/2024 em diante)</div>
-          <table>
-            <tr><td>Serviço de Internet <em style="color:var(--c-muted)">(link principal 500MG)</em></td><td>R$ 1.820,00</td></tr>
-            <tr><td>Serviço de Internet <em style="color:var(--c-muted)">(link secundário)</em></td><td>R$ 780,00</td></tr>
-            <tr><td>Serviço de Internet</td><td>R$ 399,89</td></tr>
-            <tr><td>Serviço de Internet</td><td>R$ 159,96</td></tr>
-            <tr><td>Serviço de Internet</td><td>R$ 100,00</td></tr>
-            <tr><td>Serviço de Internet</td><td>R$ 79,98</td></tr>
-            <tr><td>Serviço de Internet <em style="color:var(--c-muted)">(boleto recorrente)</em></td><td>R$ 59,95</td></tr>
-          </table>
-        </div>
-        <div class="supplier-row">
-          <span class="tag novo">Novo</span>
-          <div class="info">
-            <div class="name">JDD NET PROVEDOR DE INTERNET</div>
-            <div class="contract-desc">📄 JDD - LINK MATRIZ</div>
-            <div class="meta">Código MUNOOY · Contrato 000000000002062 · 1 NF/mês</div>
-          </div>
-          <div class="price novo">R$ 2.400,00</div>
-        </div>
-        <div class="breakdown">
-          <div class="breakdown-title">Composição mensal recorrente</div>
-          <table>
-            <tr><td>Serviço de Internet <em style="color:var(--c-muted)">(link 500MG matriz)</em></td><td>R$ 2.400,00</td></tr>
-          </table>
-        </div>
-      </div>
-    </div>
-
     <!-- TABELA CONSOLIDADA -->
     <div class="chart-card" style="padding: 0; overflow: hidden;">
       <table class="table-final">
@@ -492,12 +553,20 @@
         </thead>
         <tbody>
           <tr>
+            <td><strong>500MG</strong></td>
+            <td>DB3 (019972)</td>
+            <td class="num">R$ 3.399,78</td>
+            <td>JDD NET (MUNOOY)</td>
+            <td class="num">R$ 2.400,00</td>
+            <td class="num" style="color: var(--c-novo);">−R$ 999,78</td>
+          </tr>
+          <tr>
             <td><strong>1GB Internet</strong></td>
             <td>COREIT (017293)</td>
             <td class="num">R$ 23.680,80</td>
             <td>CYBER INFO (017384)</td>
-            <td class="num">R$ 6.420,00</td>
-            <td class="num" style="color: var(--c-novo);">−R$ 17.260,80</td>
+            <td class="num">R$ 3.200,00</td>
+            <td class="num" style="color: var(--c-novo);">−R$ 20.480,80</td>
           </tr>
           <tr>
             <td><strong>Link/Firewall/SV</strong></td>
@@ -507,22 +576,14 @@
             <td class="num">R$ 13.200,00</td>
             <td class="num" style="color: var(--c-novo);">−R$ 1.212,65</td>
           </tr>
-          <tr>
-            <td><strong>500MG</strong></td>
-            <td>DB3 (019972)</td>
-            <td class="num">R$ 3.399,78</td>
-            <td>JDD NET (MUNOOY)</td>
-            <td class="num">R$ 2.400,00</td>
-            <td class="num" style="color: var(--c-novo);">−R$ 999,78</td>
-          </tr>
         </tbody>
         <tfoot>
           <tr>
             <td colspan="2">TOTAL MENSAL</td>
             <td class="num">R$ 41.493,23</td>
             <td></td>
-            <td class="num">R$ 22.020,00</td>
-            <td class="num" style="color: var(--c-novo);">−R$ 19.473,23</td>
+            <td class="num">R$ 18.800,00</td>
+            <td class="num" style="color: var(--c-novo);">−R$ 22.693,23</td>
           </tr>
         </tfoot>
       </table>
@@ -614,7 +675,7 @@
       data: {
         labels: ['Contratos Antigos', 'Contratos Novos'],
         datasets: [{
-          data: [41493.23, 22020.00],
+          data: [41493.23, 18800.00],
           backgroundColor: [C_ANTIGO, C_NOVO],
           borderRadius: 10, barThickness: 110
         }]
@@ -643,10 +704,10 @@
     charts.categoria = new Chart(document.getElementById('chartCategoria'), {
       type: 'bar',
       data: {
-        labels: ['1GB Internet', 'Link/Firewall/SV', '500MG'],
+        labels: ['Link 500MG', 'Link 1GB', 'Link/Firewall/SV'],
         datasets: [
-          { label: 'Antigo', data: [23680.80, 14412.65, 3399.78], backgroundColor: C_ANTIGO, borderRadius: 6 },
-          { label: 'Novo',   data: [6420.00, 13200.00, 2400.00],  backgroundColor: C_NOVO,   borderRadius: 6 }
+          { label: 'Antigo', data: [3399.78, 23680.80, 14412.65], backgroundColor: C_ANTIGO, borderRadius: 6 },
+          { label: 'Novo',   data: [2400.00,  3200.00, 13200.00], backgroundColor: C_NOVO,   borderRadius: 6 }
         ]
       },
       options: {
@@ -673,7 +734,7 @@
       data: {
         labels: ['EMTECH (Firewall)', 'GHV (Servidor/Link)', 'CYBER INFO (1GB)', 'JDD NET (500MG)'],
         datasets: [{
-          data: [6500, 6700, 6420, 2400],
+          data: [6500, 6700, 3200, 2400],
           backgroundColor: ['#3b82f6', '#a855f7', '#14b8a6', '#f59e0b'],
           borderColor: col.surface, borderWidth: 3
         }]
@@ -698,10 +759,10 @@
     charts.detalhe = new Chart(document.getElementById('chartDetalhe'), {
       type: 'bar',
       data: {
-        labels: ['1GB Internet', 'Link/Firewall (CORELINK)', 'AWS (Cloud)', 'Servidor/Link (GHV)', '500MG'],
+        labels: ['Link 500MG', 'Link 1GB', 'Link/Firewall/SV'],
         datasets: [
-          { label: 'Antigo', data: [23680.80, 4412.65, 10000.00, 0,       3399.78], backgroundColor: C_ANTIGO, borderRadius: 6 },
-          { label: 'Novo',   data: [6420.00,  6500.00,  0,        6700.00, 2400.00],  backgroundColor: C_NOVO,   borderRadius: 6 }
+          { label: 'Antigo', data: [3399.78, 23680.80, 14412.65], backgroundColor: C_ANTIGO, borderRadius: 6 },
+          { label: 'Novo',   data: [2400.00,  3200.00, 13200.00], backgroundColor: C_NOVO,   borderRadius: 6 }
         ]
       },
       options: {
