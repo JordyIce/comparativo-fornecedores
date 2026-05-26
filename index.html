@@ -1,0 +1,726 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Comparativo de Fornecedores — Antigos × Novos</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0/dist/chartjs-plugin-datalabels.min.js"></script>
+<style>
+  *, *::before, *::after { box-sizing: border-box; }
+
+  /* ==== TEMA ESCURO (default) ==== */
+  :root, [data-theme="dark"] {
+    --c-bg: #0f172a;
+    --c-surface: #1e293b;
+    --c-surface-2: #334155;
+    --c-text: #f1f5f9;
+    --c-muted: #94a3b8;
+    --c-border: #334155;
+    --c-header-bg: linear-gradient(135deg, #020617 0%, #1e293b 100%);
+    --c-hero-bg: linear-gradient(135deg, #1e40af 0%, #2563eb 100%);
+    --c-table-head-bg: #0f172a;
+    --c-table-foot-bg: #334155;
+    --c-block-header-bg: #0f172a;
+    --c-breakdown-bg: #172033;
+    --c-note-bg: #422006;
+    --c-note-border: #f59e0b;
+    --c-note-text: #fde68a;
+    --c-antigo: #f87171;
+    --c-antigo-light: #7f1d1d;
+    --c-antigo-text: #fecaca;
+    --c-novo: #34d399;
+    --c-novo-light: #064e3b;
+    --c-novo-text: #a7f3d0;
+    --c-econ: #60a5fa;
+    --c-econ-light: #1e3a8a;
+    --shadow-sm: 0 1px 3px rgba(0,0,0,.3);
+    --shadow-md: 0 4px 16px rgba(0,0,0,.4);
+  }
+
+  /* ==== TEMA CLARO ==== */
+  [data-theme="light"] {
+    --c-bg: #f1f5f9;
+    --c-surface: #ffffff;
+    --c-surface-2: #f8fafc;
+    --c-text: #0f172a;
+    --c-muted: #64748b;
+    --c-border: #e2e8f0;
+    --c-header-bg: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+    --c-hero-bg: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+    --c-table-head-bg: #1e293b;
+    --c-table-foot-bg: #f1f5f9;
+    --c-block-header-bg: #f8fafc;
+    --c-breakdown-bg: #fafbfc;
+    --c-note-bg: #fffbeb;
+    --c-note-border: #f59e0b;
+    --c-note-text: #78350f;
+    --c-antigo: #ef4444;
+    --c-antigo-light: #fee2e2;
+    --c-antigo-text: #b91c1c;
+    --c-novo: #10b981;
+    --c-novo-light: #d1fae5;
+    --c-novo-text: #047857;
+    --c-econ: #3b82f6;
+    --c-econ-light: #dbeafe;
+    --shadow-sm: 0 1px 2px rgba(0,0,0,.04);
+    --shadow-md: 0 4px 12px rgba(0,0,0,.06);
+  }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    background: var(--c-bg); color: var(--c-text); margin: 0;
+    line-height: 1.5; transition: background .25s, color .25s;
+  }
+
+  header {
+    background: var(--c-header-bg);
+    color: white; padding: 32px 40px;
+  }
+  .header-content {
+    display: flex; justify-content: space-between; align-items: center;
+    max-width: 1280px; margin: 0 auto;
+  }
+  header h1 { margin: 0 0 6px 0; font-size: 1.6rem; font-weight: 600; }
+  header p { margin: 0; opacity: .8; font-size: .9rem; }
+
+  .theme-toggle {
+    background: rgba(255,255,255,.1); border: 1px solid rgba(255,255,255,.15);
+    color: white; padding: 10px 14px; border-radius: 10px;
+    cursor: pointer; font-size: 1.1rem; transition: all .15s;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .theme-toggle:hover { background: rgba(255,255,255,.18); transform: translateY(-1px); }
+  .theme-toggle .label { font-size: .85rem; font-weight: 500; }
+
+  nav.tabs {
+    display: flex; gap: 4px; background: var(--c-surface);
+    padding: 0 40px; border-bottom: 1px solid var(--c-border);
+    position: sticky; top: 0; z-index: 10;
+  }
+  nav.tabs button {
+    background: none; border: none; padding: 16px 24px;
+    font-size: .95rem; font-weight: 500; color: var(--c-muted);
+    cursor: pointer; border-bottom: 3px solid transparent;
+    transition: all .15s;
+  }
+  nav.tabs button:hover { color: var(--c-text); }
+  nav.tabs button.active {
+    color: var(--c-econ); border-bottom-color: var(--c-econ);
+  }
+  main { padding: 32px 40px; max-width: 1280px; margin: 0 auto; }
+  .page { display: none; animation: fadein .25s ease; }
+  .page.active { display: block; }
+  @keyframes fadein { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: none; } }
+
+  .hero {
+    background: var(--c-hero-bg);
+    color: white; padding: 40px; border-radius: 16px;
+    margin-bottom: 24px; box-shadow: var(--shadow-md);
+    text-align: center;
+  }
+  .hero .label { font-size: .85rem; opacity: .85; text-transform: uppercase; letter-spacing: 1px; }
+  .hero .big-number { font-size: 3.5rem; font-weight: 700; margin: 8px 0; }
+  .hero .sub { font-size: 1.05rem; opacity: .9; }
+
+  .cards-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 16px; margin-bottom: 24px;
+  }
+  .card {
+    background: var(--c-surface); padding: 24px; border-radius: 12px;
+    box-shadow: var(--shadow-sm); border: 1px solid var(--c-border);
+  }
+  .card .label { font-size: .8rem; color: var(--c-muted); text-transform: uppercase; letter-spacing: .8px; margin-bottom: 8px; }
+  .card .value { font-size: 1.9rem; font-weight: 700; }
+  .card.antigo { border-left: 4px solid var(--c-antigo); }
+  .card.antigo .value { color: var(--c-antigo); }
+  .card.novo { border-left: 4px solid var(--c-novo); }
+  .card.novo .value { color: var(--c-novo); }
+  .card.econ { border-left: 4px solid var(--c-econ); }
+  .card.econ .value { color: var(--c-econ); }
+  .card .delta { font-size: .85rem; color: var(--c-muted); margin-top: 4px; }
+
+  .chart-card {
+    background: var(--c-surface); padding: 24px; border-radius: 12px;
+    box-shadow: var(--shadow-sm); border: 1px solid var(--c-border);
+    margin-bottom: 24px;
+  }
+  .chart-card h2 { margin: 0 0 4px 0; font-size: 1.15rem; font-weight: 600; }
+  .chart-card .sub { color: var(--c-muted); font-size: .88rem; margin-bottom: 20px; }
+  .chart-container { position: relative; height: 360px; }
+
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 24px; }
+  @media (max-width: 768px) { .two-col { grid-template-columns: 1fr; } }
+
+  .category-block {
+    background: var(--c-surface); border-radius: 12px;
+    box-shadow: var(--shadow-sm); border: 1px solid var(--c-border);
+    margin-bottom: 20px; overflow: hidden;
+  }
+  .category-block .header {
+    padding: 18px 24px; background: var(--c-block-header-bg);
+    border-bottom: 1px solid var(--c-border);
+    display: flex; justify-content: space-between; align-items: center;
+    flex-wrap: wrap; gap: 12px;
+  }
+  .category-block h3 { margin: 0; font-size: 1.1rem; font-weight: 600; }
+  .category-block .pill {
+    display: inline-block; padding: 4px 10px; border-radius: 12px;
+    font-size: .75rem; font-weight: 600;
+  }
+  .pill.economia { background: var(--c-novo-light); color: var(--c-novo-text); }
+  .pill.aumento { background: var(--c-antigo-light); color: var(--c-antigo-text); }
+  .category-block .body { padding: 0; }
+  .supplier-row {
+    padding: 18px 24px; display: grid;
+    grid-template-columns: 70px 1fr auto;
+    gap: 18px; align-items: center;
+    border-bottom: 1px solid var(--c-border);
+  }
+  .supplier-row:last-child { border-bottom: none; }
+  .supplier-row .tag {
+    display: inline-block; padding: 4px 10px; border-radius: 6px;
+    font-size: .7rem; font-weight: 700; text-align: center;
+    text-transform: uppercase; letter-spacing: .5px;
+  }
+  .supplier-row .tag.antigo { background: var(--c-antigo-light); color: var(--c-antigo-text); }
+  .supplier-row .tag.novo { background: var(--c-novo-light); color: var(--c-novo-text); }
+  .supplier-row .info .name { font-weight: 600; font-size: 1rem; }
+  .supplier-row .info .meta { font-size: .82rem; color: var(--c-muted); margin-top: 2px; }
+  .supplier-row .price { font-size: 1.25rem; font-weight: 700; font-family: 'SF Mono', Menlo, monospace; }
+  .supplier-row .price.antigo { color: var(--c-antigo); }
+  .supplier-row .price.novo { color: var(--c-novo); }
+
+  .breakdown {
+    padding: 12px 24px 18px 112px; background: var(--c-breakdown-bg);
+    border-bottom: 1px solid var(--c-border);
+    font-size: .85rem;
+  }
+  .breakdown-title { color: var(--c-muted); font-weight: 600; margin-bottom: 6px; text-transform: uppercase; font-size: .7rem; letter-spacing: .8px; }
+  .breakdown table { width: 100%; border-collapse: collapse; }
+  .breakdown td { padding: 4px 0; }
+  .breakdown td:last-child { text-align: right; font-family: 'SF Mono', Menlo, monospace; }
+
+  .table-final {
+    width: 100%; border-collapse: collapse;
+    background: var(--c-surface); border-radius: 12px; overflow: hidden;
+    box-shadow: var(--shadow-sm); border: 1px solid var(--c-border);
+  }
+  .table-final th, .table-final td { padding: 14px 20px; text-align: left; }
+  .table-final thead { background: var(--c-table-head-bg); color: white; }
+  .table-final tbody tr { border-bottom: 1px solid var(--c-border); }
+  .table-final tbody tr:last-child { border-bottom: none; }
+  .table-final tfoot { background: var(--c-table-foot-bg); font-weight: 700; }
+  .table-final .num { text-align: right; font-family: 'SF Mono', Menlo, monospace; }
+
+  .note {
+    background: var(--c-note-bg); border-left: 4px solid var(--c-note-border);
+    padding: 14px 18px; border-radius: 8px;
+    font-size: .88rem; color: var(--c-note-text); margin-bottom: 20px;
+  }
+  .note strong { color: var(--c-note-border); }
+  footer {
+    text-align: center; padding: 24px; color: var(--c-muted); font-size: .8rem;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-content">
+    <div>
+      <h1>Comparativo de Fornecedores — Antigos × Novos</h1>
+      <p>Análise mensal de contratos de Internet, Link/Firewall e 500MG</p>
+    </div>
+    <button class="theme-toggle" id="themeToggle" aria-label="Alternar tema">
+      <span id="themeIcon">☀️</span>
+      <span class="label" id="themeLabel">Claro</span>
+    </button>
+  </div>
+</header>
+
+<nav class="tabs">
+  <button class="active" data-tab="resumo">📊 Resumo</button>
+  <button data-tab="detalhe">📋 Detalhamento</button>
+</nav>
+
+<main>
+
+  <!-- PÁGINA 1: RESUMO -->
+  <section class="page active" id="resumo">
+    <div class="hero">
+      <div class="label">Economia Anual Estimada</div>
+      <div class="big-number">R$ 233.678,76</div>
+      <div class="sub">Redução de 46,9% no custo mensal — economia de R$ 19.473,23/mês</div>
+    </div>
+
+    <div class="cards-grid">
+      <div class="card antigo">
+        <div class="label">Custo Mensal — Antigos</div>
+        <div class="value">R$ 41.493,23</div>
+        <div class="delta">4 origens (incl. AWS no cartão)</div>
+      </div>
+      <div class="card novo">
+        <div class="label">Custo Mensal — Novos</div>
+        <div class="value">R$ 22.020,00</div>
+        <div class="delta">4 fornecedores</div>
+      </div>
+      <div class="card econ">
+        <div class="label">Economia Mensal</div>
+        <div class="value">R$ 19.473,23</div>
+        <div class="delta">↓ 46,9% em relação ao antigo</div>
+      </div>
+    </div>
+
+    <div class="chart-card">
+      <h2>Comparação Mensal Total</h2>
+      <p class="sub">Soma dos contratos recorrentes — antes e depois</p>
+      <div class="chart-container"><canvas id="chartTotal"></canvas></div>
+    </div>
+
+    <div class="two-col">
+      <div class="chart-card">
+        <h2>Comparação por Categoria</h2>
+        <p class="sub">Valor mensal de cada serviço</p>
+        <div class="chart-container"><canvas id="chartCategoria"></canvas></div>
+      </div>
+      <div class="chart-card">
+        <h2>Distribuição do Gasto Novo</h2>
+        <p class="sub">Participação de cada fornecedor</p>
+        <div class="chart-container"><canvas id="chartPizza"></canvas></div>
+      </div>
+    </div>
+
+    <div class="note">
+      <strong>Premissas aplicadas:</strong> spikes não-recorrentes foram removidos (compra de equipamento da EMTECH
+      de R$ 212.598,97 e NFs avulsas da CYBER INFO). O AWS de R$ 10.000/mês foi incluído como custo antigo
+      (era pago via cartão corporativo, não passava por SE2). Os valores refletem a mensalidade recorrente.
+    </div>
+  </section>
+
+  <!-- PÁGINA 2: DETALHAMENTO -->
+  <section class="page" id="detalhe">
+
+    <div class="chart-card">
+      <h2>Composição mensal por categoria</h2>
+      <p class="sub">Detalhe lado-a-lado de cada serviço</p>
+      <div class="chart-container"><canvas id="chartDetalhe"></canvas></div>
+    </div>
+
+    <!-- 1GB INTERNET -->
+    <div class="category-block">
+      <div class="header">
+        <h3>🌐 1GB Internet (Matriz)</h3>
+        <span class="pill economia">Economia: R$ 17.260,80/mês</span>
+      </div>
+      <div class="body">
+        <div class="supplier-row">
+          <span class="tag antigo">Antigo</span>
+          <div class="info">
+            <div class="name">COREIT SERVIÇOS GERENCIADOS</div>
+            <div class="meta">Código 017293 · Contrato 000000000001888 · 5 NFs/mês</div>
+          </div>
+          <div class="price antigo">R$ 23.680,80</div>
+        </div>
+        <div class="breakdown">
+          <div class="breakdown-title">Composição das NFs mensais (jan-abr/2024)</div>
+          <table>
+            <tr><td>NF tipo A (link 1GB principal)</td><td>R$ 12.058,85</td></tr>
+            <tr><td>NF tipo B</td><td>R$ 7.930,93</td></tr>
+            <tr><td>NF tipo C</td><td>R$ 1.524,69</td></tr>
+            <tr><td>NF tipo D</td><td>R$ 1.415,53</td></tr>
+            <tr><td>NF tipo E</td><td>R$ 750,80</td></tr>
+          </table>
+        </div>
+        <div class="supplier-row">
+          <span class="tag novo">Novo</span>
+          <div class="info">
+            <div class="name">CYBER INFO SERVIÇOS DE TELECOMUNICAÇÕES</div>
+            <div class="meta">Código 017384 · Contrato 000000000002044 · 1 NF/mês</div>
+          </div>
+          <div class="price novo">R$ 6.420,00</div>
+        </div>
+        <div class="breakdown">
+          <div class="breakdown-title">Composição mensal recorrente</div>
+          <table>
+            <tr><td>Mensalidade fixa (PC ~26xxxx-28xxxx)</td><td>R$ 6.420,00</td></tr>
+            <tr><td><em>NFs avulsas (000574xxx) — não computadas</em></td><td><em>R$ 200 a R$ 1.575 esporádicos</em></td></tr>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- LINK/FIREWALL/SERVIDOR -->
+    <div class="category-block">
+      <div class="header">
+        <h3>🔥 Link / Firewall / Servidor</h3>
+        <span class="pill economia">Economia: R$ 1.212,65/mês</span>
+      </div>
+      <div class="body">
+        <div class="supplier-row">
+          <span class="tag antigo">Antigo</span>
+          <div class="info">
+            <div class="name">CORELINK CONECTIVIDADE SEGURA</div>
+            <div class="meta">Código 018138 · Contrato 000000000001864 · 4 NFs/mês</div>
+          </div>
+          <div class="price antigo">R$ 4.412,65</div>
+        </div>
+        <div class="breakdown">
+          <div class="breakdown-title">Composição das NFs (mai-ago/2024, último valor reajustado)</div>
+          <table>
+            <tr><td>Item A</td><td>R$ 2.411,67</td></tr>
+            <tr><td>Item B</td><td>R$ 1.169,92</td></tr>
+            <tr><td>Item C</td><td>R$ 623,29</td></tr>
+            <tr><td>Item D</td><td>R$ 207,77</td></tr>
+          </table>
+        </div>
+        <div class="supplier-row">
+          <span class="tag antigo">Antigo</span>
+          <div class="info">
+            <div class="name">AWS — Amazon Web Services <small style="color:var(--c-muted)">(Servidor cloud)</small></div>
+            <div class="meta">Cartão corporativo · Não registrado em SE2</div>
+          </div>
+          <div class="price antigo">R$ 10.000,00</div>
+        </div>
+        <div class="breakdown">
+          <div class="breakdown-title">Origem do custo</div>
+          <table>
+            <tr><td>Mensalidade de servidor cloud (média)</td><td>R$ 10.000,00</td></tr>
+            <tr><td><em>Pagamento via cartão corporativo — não há NF em SE2</em></td><td><em>—</em></td></tr>
+          </table>
+        </div>
+        <div class="supplier-row">
+          <span class="tag novo">Novo</span>
+          <div class="info">
+            <div class="name">JDD/EMTECH TELECOM <small style="color:var(--c-muted)">(Firewall)</small></div>
+            <div class="meta">Código MUNNK2 · Contrato 000000000002047 · 2 NFs/mês</div>
+          </div>
+          <div class="price novo">R$ 6.500,00</div>
+        </div>
+        <div class="breakdown">
+          <div class="breakdown-title">Composição mensal recorrente</div>
+          <table>
+            <tr><td>Firewall mensal</td><td>R$ 6.100,00</td></tr>
+            <tr><td>Acessório</td><td>R$ 400,00</td></tr>
+            <tr><td><em>Spike de equipamento R$ 212.598,97 (PC 277099) — removido</em></td><td><em>—</em></td></tr>
+          </table>
+        </div>
+        <div class="supplier-row">
+          <span class="tag novo">Novo</span>
+          <div class="info">
+            <div class="name">GHV TECNOLOGIA <small style="color:var(--c-muted)">(Servidor/Link)</small></div>
+            <div class="meta">Código MUNNMY · Contrato 000000000002043 · 2 NFs/mês</div>
+          </div>
+          <div class="price novo">R$ 6.700,00</div>
+        </div>
+        <div class="breakdown">
+          <div class="breakdown-title">Composição mensal recorrente</div>
+          <table>
+            <tr><td>Serviço A (PC 274xxx)</td><td>R$ 3.350,00</td></tr>
+            <tr><td>Serviço B (PC 277-281xxx)</td><td>R$ 3.350,00</td></tr>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- 500MG -->
+    <div class="category-block">
+      <div class="header">
+        <h3>📡 Link 500MG</h3>
+        <span class="pill economia">Economia: R$ 999,78/mês</span>
+      </div>
+      <div class="body">
+        <div class="supplier-row">
+          <span class="tag antigo">Antigo</span>
+          <div class="info">
+            <div class="name">DB3 SERVIÇOS DE TELECOMUNICAÇÕES</div>
+            <div class="meta">Código 019972 · Contratos 1952/1953 · 7 NFs/mês</div>
+          </div>
+          <div class="price antigo">R$ 3.399,78</div>
+        </div>
+        <div class="breakdown">
+          <div class="breakdown-title">Composição das NFs (jun/2024 em diante)</div>
+          <table>
+            <tr><td>Link grande</td><td>R$ 1.820,00</td></tr>
+            <tr><td>Link menor</td><td>R$ 780,00</td></tr>
+            <tr><td>Serviço adicional 1</td><td>R$ 399,89</td></tr>
+            <tr><td>Serviço adicional 2</td><td>R$ 159,96</td></tr>
+            <tr><td>Serviço adicional 3</td><td>R$ 100,00</td></tr>
+            <tr><td>Serviço adicional 4</td><td>R$ 79,98</td></tr>
+            <tr><td>Boleto recorrente</td><td>R$ 59,95</td></tr>
+          </table>
+        </div>
+        <div class="supplier-row">
+          <span class="tag novo">Novo</span>
+          <div class="info">
+            <div class="name">JDD NET PROVEDOR DE INTERNET</div>
+            <div class="meta">Código MUNOOY · Contrato 000000000002062 · 1 NF/mês</div>
+          </div>
+          <div class="price novo">R$ 2.400,00</div>
+        </div>
+        <div class="breakdown">
+          <div class="breakdown-title">Composição mensal recorrente</div>
+          <table>
+            <tr><td>Link 500MG</td><td>R$ 2.400,00</td></tr>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- TABELA CONSOLIDADA -->
+    <div class="chart-card" style="padding: 0; overflow: hidden;">
+      <table class="table-final">
+        <thead>
+          <tr>
+            <th>Categoria</th>
+            <th>Fornecedor Antigo</th>
+            <th class="num">Mensal Antigo</th>
+            <th>Fornecedor Novo</th>
+            <th class="num">Mensal Novo</th>
+            <th class="num">Variação</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>1GB Internet</strong></td>
+            <td>COREIT (017293)</td>
+            <td class="num">R$ 23.680,80</td>
+            <td>CYBER INFO (017384)</td>
+            <td class="num">R$ 6.420,00</td>
+            <td class="num" style="color: var(--c-novo);">−R$ 17.260,80</td>
+          </tr>
+          <tr>
+            <td><strong>Link/Firewall/SV</strong></td>
+            <td>CORELINK + AWS</td>
+            <td class="num">R$ 14.412,65</td>
+            <td>EMTECH + GHV</td>
+            <td class="num">R$ 13.200,00</td>
+            <td class="num" style="color: var(--c-novo);">−R$ 1.212,65</td>
+          </tr>
+          <tr>
+            <td><strong>500MG</strong></td>
+            <td>DB3 (019972)</td>
+            <td class="num">R$ 3.399,78</td>
+            <td>JDD NET (MUNOOY)</td>
+            <td class="num">R$ 2.400,00</td>
+            <td class="num" style="color: var(--c-novo);">−R$ 999,78</td>
+          </tr>
+        </tbody>
+        <tfoot>
+          <tr>
+            <td colspan="2">TOTAL MENSAL</td>
+            <td class="num">R$ 41.493,23</td>
+            <td></td>
+            <td class="num">R$ 22.020,00</td>
+            <td class="num" style="color: var(--c-novo);">−R$ 19.473,23</td>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+
+    <div class="note">
+      <strong>Fonte dos dados:</strong> ERP Protheus (TOTVS) — banco BEQ_LWH (tabela SE2 / Contas a Pagar).
+      O AWS é adicionado manualmente pois era pago via cartão corporativo.
+      Período base antigos: 2024 (último ano completo antes do encerramento).
+      Período base novos: período recorrente estabilizado pós-implantação.
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  Gerado em 26/05/2026 · Dados extraídos do Protheus BEQ_LWH
+</footer>
+
+<script>
+  // ===== Plugin de rótulos =====
+  Chart.register(ChartDataLabels);
+
+  // ===== Tema (dark default, persistido em localStorage) =====
+  const root = document.documentElement;
+  const themeBtn = document.getElementById('themeToggle');
+  const themeIcon = document.getElementById('themeIcon');
+  const themeLabel = document.getElementById('themeLabel');
+
+  const savedTheme = localStorage.getItem('theme') || 'dark';
+  applyTheme(savedTheme);
+
+  themeBtn.addEventListener('click', () => {
+    const current = root.getAttribute('data-theme');
+    const next = current === 'dark' ? 'light' : 'dark';
+    applyTheme(next);
+    localStorage.setItem('theme', next);
+    refreshChartsTheme();
+  });
+
+  function applyTheme(t) {
+    root.setAttribute('data-theme', t);
+    if (t === 'dark') { themeIcon.textContent = '☀️'; themeLabel.textContent = 'Claro'; }
+    else { themeIcon.textContent = '🌙'; themeLabel.textContent = 'Escuro'; }
+  }
+
+  function getThemeColors() {
+    const s = getComputedStyle(root);
+    return {
+      text: s.getPropertyValue('--c-text').trim(),
+      muted: s.getPropertyValue('--c-muted').trim(),
+      border: s.getPropertyValue('--c-border').trim(),
+      surface: s.getPropertyValue('--c-surface').trim()
+    };
+  }
+
+  // ===== Tabs =====
+  document.querySelectorAll('nav.tabs button').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const target = btn.dataset.tab;
+      document.querySelectorAll('nav.tabs button').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+      btn.classList.add('active');
+      document.getElementById(target).classList.add('active');
+    });
+  });
+
+  // ===== Helpers =====
+  const fmtBRL = v => 'R$ ' + v.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  const fmtBRLShort = v => {
+    if (v >= 1000) return 'R$ ' + (v/1000).toLocaleString('pt-BR', { maximumFractionDigits: 1 }) + 'k';
+    return 'R$ ' + v.toLocaleString('pt-BR');
+  };
+  const C_ANTIGO = '#ef4444';
+  const C_NOVO   = '#10b981';
+
+  Chart.defaults.font.family = '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif';
+  Chart.defaults.font.size = 12;
+
+  const charts = {};
+
+  function buildCharts() {
+    const col = getThemeColors();
+    Chart.defaults.color = col.muted;
+
+    // 1) Total mensal
+    charts.total = new Chart(document.getElementById('chartTotal'), {
+      type: 'bar',
+      data: {
+        labels: ['Contratos Antigos', 'Contratos Novos'],
+        datasets: [{
+          data: [41493.23, 22020.00],
+          backgroundColor: [C_ANTIGO, C_NOVO],
+          borderRadius: 10, barThickness: 110
+        }]
+      },
+      options: {
+        responsive: true, maintainAspectRatio: false,
+        plugins: {
+          legend: { display: false },
+          tooltip: { callbacks: { label: ctx => fmtBRL(ctx.parsed.y) } },
+          datalabels: {
+            anchor: 'end', align: 'end', offset: 6,
+            color: col.text, font: { weight: '700', size: 14 },
+            formatter: v => fmtBRL(v)
+          }
+        },
+        scales: {
+          y: { beginAtZero: true, suggestedMax: 50000,
+               ticks: { color: col.muted, callback: v => fmtBRLShort(v) },
+               grid: { color: col.border } },
+          x: { grid: { display: false }, ticks: { color: col.text, font: { size: 14, weight: '600' } } }
+        }
+      }
+    });
+
+    // 2) Por categoria
+    charts.categoria = new Chart(document.getElementById('chartCategoria'), {
+      type: 'bar',
+      data: {
+        labels: ['1GB Internet', 'Link/Firewall/SV', '500MG'],
+        datasets: [
+          { label: 'Antigo', data: [23680.80, 14412.65, 3399.78], backgroundColor: C_ANTIGO, borderRadius: 6 },
+          { label: 'Novo',   data: [6420.00, 13200.00, 2400.00],  backgroundColor: C_NOVO,   borderRadius: 6 }
+        ]
+      },
+      options: {
+        responsive: true, maintainAspectRatio: false,
+        plugins: {
+          legend: { position: 'top', labels: { color: col.text } },
+          tooltip: { callbacks: { label: ctx => ctx.dataset.label + ': ' + fmtBRL(ctx.parsed.y) } },
+          datalabels: {
+            anchor: 'end', align: 'end', offset: 2,
+            color: col.text, font: { weight: '600', size: 10 },
+            formatter: v => fmtBRLShort(v)
+          }
+        },
+        scales: {
+          y: { beginAtZero: true, ticks: { color: col.muted, callback: v => fmtBRLShort(v) }, grid: { color: col.border } },
+          x: { grid: { display: false }, ticks: { color: col.text } }
+        }
+      }
+    });
+
+    // 3) Pizza
+    charts.pizza = new Chart(document.getElementById('chartPizza'), {
+      type: 'doughnut',
+      data: {
+        labels: ['EMTECH (Firewall)', 'GHV (Servidor/Link)', 'CYBER INFO (1GB)', 'JDD NET (500MG)'],
+        datasets: [{
+          data: [6500, 6700, 6420, 2400],
+          backgroundColor: ['#3b82f6', '#a855f7', '#14b8a6', '#f59e0b'],
+          borderColor: col.surface, borderWidth: 3
+        }]
+      },
+      options: {
+        responsive: true, maintainAspectRatio: false,
+        plugins: {
+          legend: { position: 'right', labels: { color: col.text } },
+          tooltip: { callbacks: { label: ctx => ctx.label + ': ' + fmtBRL(ctx.parsed) } },
+          datalabels: {
+            color: '#fff', font: { weight: '700', size: 12 },
+            formatter: (v, ctx) => {
+              const total = ctx.chart.data.datasets[0].data.reduce((a,b) => a+b, 0);
+              return ((v/total)*100).toFixed(1) + '%';
+            }
+          }
+        }
+      }
+    });
+
+    // 4) Detalhe (horizontal)
+    charts.detalhe = new Chart(document.getElementById('chartDetalhe'), {
+      type: 'bar',
+      data: {
+        labels: ['1GB Internet', 'Link/Firewall (CORELINK)', 'AWS (Cloud)', 'Servidor/Link (GHV)', '500MG'],
+        datasets: [
+          { label: 'Antigo', data: [23680.80, 4412.65, 10000.00, 0,       3399.78], backgroundColor: C_ANTIGO, borderRadius: 6 },
+          { label: 'Novo',   data: [6420.00,  6500.00,  0,        6700.00, 2400.00],  backgroundColor: C_NOVO,   borderRadius: 6 }
+        ]
+      },
+      options: {
+        indexAxis: 'y',
+        responsive: true, maintainAspectRatio: false,
+        plugins: {
+          legend: { position: 'top', labels: { color: col.text } },
+          tooltip: { callbacks: { label: ctx => ctx.dataset.label + ': ' + fmtBRL(ctx.parsed.x) } },
+          datalabels: {
+            anchor: 'end', align: 'end', offset: 4,
+            color: col.text, font: { weight: '600', size: 10 },
+            formatter: v => v > 0 ? fmtBRLShort(v) : ''
+          }
+        },
+        scales: {
+          x: { beginAtZero: true, ticks: { color: col.muted, callback: v => fmtBRLShort(v) }, grid: { color: col.border } },
+          y: { grid: { display: false }, ticks: { color: col.text } }
+        }
+      }
+    });
+  }
+
+  function refreshChartsTheme() {
+    Object.values(charts).forEach(c => c.destroy());
+    buildCharts();
+  }
+
+  buildCharts();
+</script>
+</body>
+</html>
