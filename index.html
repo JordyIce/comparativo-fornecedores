@@ -187,7 +187,12 @@
   .supplier-row .tag.antigo { background: var(--c-antigo-light); color: var(--c-antigo-text); }
   .supplier-row .tag.novo { background: var(--c-novo-light); color: var(--c-novo-text); }
   .supplier-row .info .name { font-weight: 600; font-size: 1rem; }
-  .supplier-row .info .meta { font-size: .82rem; color: var(--c-muted); margin-top: 2px; }
+  .supplier-row .info .contract-desc {
+    display: inline-block; margin-top: 5px; padding: 3px 9px; border-radius: 4px;
+    background: var(--c-econ-light); color: var(--c-econ);
+    font-size: .72rem; font-weight: 600; text-transform: uppercase; letter-spacing: .6px;
+  }
+  .supplier-row .info .meta { font-size: .82rem; color: var(--c-muted); margin-top: 5px; }
   .supplier-row .price { font-size: 1.25rem; font-weight: 700; font-family: 'SF Mono', Menlo, monospace; }
   .supplier-row .price.antigo { color: var(--c-antigo); }
   .supplier-row .price.novo { color: var(--c-novo); }
@@ -319,6 +324,7 @@
           <span class="tag antigo">Antigo</span>
           <div class="info">
             <div class="name">COREIT SERVIÇOS GERENCIADOS</div>
+            <div class="contract-desc">📄 COREIT SERVICOS GERENCIADOS</div>
             <div class="meta">Código 017293 · Contrato 000000000001888 · 5 NFs/mês</div>
           </div>
           <div class="price antigo">R$ 23.680,80</div>
@@ -326,17 +332,18 @@
         <div class="breakdown">
           <div class="breakdown-title">Composição das NFs mensais (jan-abr/2024)</div>
           <table>
-            <tr><td>NF tipo A (link 1GB principal)</td><td>R$ 12.058,85</td></tr>
-            <tr><td>NF tipo B</td><td>R$ 7.930,93</td></tr>
-            <tr><td>NF tipo C</td><td>R$ 1.524,69</td></tr>
-            <tr><td>NF tipo D</td><td>R$ 1.415,53</td></tr>
-            <tr><td>NF tipo E</td><td>R$ 750,80</td></tr>
+            <tr><td>Prestação de Serviço <em style="color:var(--c-muted)">(link 1GB principal)</em></td><td>R$ 12.058,85</td></tr>
+            <tr><td>Prestação de Serviço</td><td>R$ 7.930,93</td></tr>
+            <tr><td>Prestação de Serviço</td><td>R$ 1.524,69</td></tr>
+            <tr><td>Prestação de Serviço</td><td>R$ 1.415,53</td></tr>
+            <tr><td>Prestação de Serviço</td><td>R$ 750,80</td></tr>
           </table>
         </div>
         <div class="supplier-row">
           <span class="tag novo">Novo</span>
           <div class="info">
             <div class="name">CYBER INFO SERVIÇOS DE TELECOMUNICAÇÕES</div>
+            <div class="contract-desc">📄 CYBER INFO - MATRIZ</div>
             <div class="meta">Código 017384 · Contrato 000000000002044 · 1 NF/mês</div>
           </div>
           <div class="price novo">R$ 6.420,00</div>
@@ -344,8 +351,7 @@
         <div class="breakdown">
           <div class="breakdown-title">Composição mensal recorrente</div>
           <table>
-            <tr><td>Mensalidade fixa (PC ~26xxxx-28xxxx)</td><td>R$ 6.420,00</td></tr>
-            <tr><td><em>NFs avulsas (000574xxx) — não computadas</em></td><td><em>R$ 200 a R$ 1.575 esporádicos</em></td></tr>
+            <tr><td>Serviço de Internet <em style="color:var(--c-muted)">(link 1GB Matriz + instalação de cabo de rede/RJs)</em></td><td>R$ 6.420,00</td></tr>
           </table>
         </div>
       </div>
@@ -362,6 +368,7 @@
           <span class="tag antigo">Antigo</span>
           <div class="info">
             <div class="name">CORELINK CONECTIVIDADE SEGURA</div>
+            <div class="contract-desc">📄 CORELINK CONECTIVIDADE SEGURA</div>
             <div class="meta">Código 018138 · Contrato 000000000001864 · 4 NFs/mês</div>
           </div>
           <div class="price antigo">R$ 4.412,65</div>
@@ -369,10 +376,10 @@
         <div class="breakdown">
           <div class="breakdown-title">Composição das NFs (mai-ago/2024, último valor reajustado)</div>
           <table>
-            <tr><td>Item A</td><td>R$ 2.411,67</td></tr>
-            <tr><td>Item B</td><td>R$ 1.169,92</td></tr>
-            <tr><td>Item C</td><td>R$ 623,29</td></tr>
-            <tr><td>Item D</td><td>R$ 207,77</td></tr>
+            <tr><td>Serviço de Internet <em style="color:var(--c-muted)">(link principal)</em></td><td>R$ 2.411,67</td></tr>
+            <tr><td>Serviço de Internet</td><td>R$ 1.169,92</td></tr>
+            <tr><td>Serviço de Internet</td><td>R$ 623,29</td></tr>
+            <tr><td>Serviço de Internet</td><td>R$ 207,77</td></tr>
           </table>
         </div>
         <div class="supplier-row">
@@ -387,13 +394,13 @@
           <div class="breakdown-title">Origem do custo</div>
           <table>
             <tr><td>Mensalidade de servidor cloud (média)</td><td>R$ 10.000,00</td></tr>
-            <tr><td><em>Pagamento via cartão corporativo — não há NF em SE2</em></td><td><em>—</em></td></tr>
           </table>
         </div>
         <div class="supplier-row">
           <span class="tag novo">Novo</span>
           <div class="info">
             <div class="name">JDD/EMTECH TELECOM <small style="color:var(--c-muted)">(Firewall)</small></div>
+            <div class="contract-desc">📄 JDD EMPRESA TECNICA DE TELECOMUNICACOES</div>
             <div class="meta">Código MUNNK2 · Contrato 000000000002047 · 2 NFs/mês</div>
           </div>
           <div class="price novo">R$ 6.500,00</div>
@@ -401,15 +408,15 @@
         <div class="breakdown">
           <div class="breakdown-title">Composição mensal recorrente</div>
           <table>
-            <tr><td>Firewall mensal</td><td>R$ 6.100,00</td></tr>
-            <tr><td>Acessório</td><td>R$ 400,00</td></tr>
-            <tr><td><em>Spike de equipamento R$ 212.598,97 (PC 277099) — removido</em></td><td><em>—</em></td></tr>
+            <tr><td>Prestação de Serviço <em style="color:var(--c-muted)">(firewall mensal — reparo/manutenção de equipamentos de comunicação)</em></td><td>R$ 6.100,00</td></tr>
+            <tr><td>Prestação de Serviço <em style="color:var(--c-muted)">(acessório/licença)</em></td><td>R$ 400,00</td></tr>
           </table>
         </div>
         <div class="supplier-row">
           <span class="tag novo">Novo</span>
           <div class="info">
             <div class="name">GHV TECNOLOGIA <small style="color:var(--c-muted)">(Servidor/Link)</small></div>
+            <div class="contract-desc">📄 BACKUP / GERENCIAMENTO DE DADOS / VMs</div>
             <div class="meta">Código MUNNMY · Contrato 000000000002043 · 2 NFs/mês</div>
           </div>
           <div class="price novo">R$ 6.700,00</div>
@@ -417,8 +424,8 @@
         <div class="breakdown">
           <div class="breakdown-title">Composição mensal recorrente</div>
           <table>
-            <tr><td>Serviço A (PC 274xxx)</td><td>R$ 3.350,00</td></tr>
-            <tr><td>Serviço B (PC 277-281xxx)</td><td>R$ 3.350,00</td></tr>
+            <tr><td>Suporte e Manutenção – Servidor TrueNAS <em style="color:var(--c-muted)">(backup / gerenciamento de dados)</em></td><td>R$ 3.350,00</td></tr>
+            <tr><td>Suporte e Manutenção – Servidor TrueNAS <em style="color:var(--c-muted)">(gerenciamento de VMs)</em></td><td>R$ 3.350,00</td></tr>
           </table>
         </div>
       </div>
@@ -435,6 +442,7 @@
           <span class="tag antigo">Antigo</span>
           <div class="info">
             <div class="name">DB3 SERVIÇOS DE TELECOMUNICAÇÕES</div>
+            <div class="contract-desc">📄 DB3 SERVICOS DE TELECOMUNICACOES</div>
             <div class="meta">Código 019972 · Contratos 1952/1953 · 7 NFs/mês</div>
           </div>
           <div class="price antigo">R$ 3.399,78</div>
@@ -442,19 +450,20 @@
         <div class="breakdown">
           <div class="breakdown-title">Composição das NFs (jun/2024 em diante)</div>
           <table>
-            <tr><td>Link grande</td><td>R$ 1.820,00</td></tr>
-            <tr><td>Link menor</td><td>R$ 780,00</td></tr>
-            <tr><td>Serviço adicional 1</td><td>R$ 399,89</td></tr>
-            <tr><td>Serviço adicional 2</td><td>R$ 159,96</td></tr>
-            <tr><td>Serviço adicional 3</td><td>R$ 100,00</td></tr>
-            <tr><td>Serviço adicional 4</td><td>R$ 79,98</td></tr>
-            <tr><td>Boleto recorrente</td><td>R$ 59,95</td></tr>
+            <tr><td>Serviço de Internet <em style="color:var(--c-muted)">(link principal 500MG)</em></td><td>R$ 1.820,00</td></tr>
+            <tr><td>Serviço de Internet <em style="color:var(--c-muted)">(link secundário)</em></td><td>R$ 780,00</td></tr>
+            <tr><td>Serviço de Internet</td><td>R$ 399,89</td></tr>
+            <tr><td>Serviço de Internet</td><td>R$ 159,96</td></tr>
+            <tr><td>Serviço de Internet</td><td>R$ 100,00</td></tr>
+            <tr><td>Serviço de Internet</td><td>R$ 79,98</td></tr>
+            <tr><td>Serviço de Internet <em style="color:var(--c-muted)">(boleto recorrente)</em></td><td>R$ 59,95</td></tr>
           </table>
         </div>
         <div class="supplier-row">
           <span class="tag novo">Novo</span>
           <div class="info">
             <div class="name">JDD NET PROVEDOR DE INTERNET</div>
+            <div class="contract-desc">📄 JDD - LINK MATRIZ</div>
             <div class="meta">Código MUNOOY · Contrato 000000000002062 · 1 NF/mês</div>
           </div>
           <div class="price novo">R$ 2.400,00</div>
@@ -462,7 +471,7 @@
         <div class="breakdown">
           <div class="breakdown-title">Composição mensal recorrente</div>
           <table>
-            <tr><td>Link 500MG</td><td>R$ 2.400,00</td></tr>
+            <tr><td>Serviço de Internet <em style="color:var(--c-muted)">(link 500MG matriz)</em></td><td>R$ 2.400,00</td></tr>
           </table>
         </div>
       </div>
